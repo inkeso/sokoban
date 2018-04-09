@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 #
 #  pygameban.py
@@ -14,6 +14,7 @@ import pygame, random, re, time, os
 import gfx
 from sokoban import *
 
+DEFAULT_SIZE = (800, 600)
 
 class Pygameban:
     """Eye-friendly oldschool-GFX with pygame"""
@@ -29,6 +30,9 @@ class Pygameban:
     
     def __init__(self, leveldir):
         pygame.init()
+        di = pygame.display.Info()
+        self.disp = (di.current_w, di.current_h)
+        self.curr = DEFAULT_SIZE
         pygame.font.init()
         pygame.display.set_caption('IKSOKOBAN')
         pygame.display.set_icon(gfx.icon())
@@ -51,8 +55,7 @@ class Pygameban:
         # 5 = replay solution
         self.state = 1
         
-        
-    def resize(self, w=800, h=600):
+    def resize(self, w=DEFAULT_SIZE[0], h=DEFAULT_SIZE[1]):
         self.screen = pygame.display.set_mode((w, h), pygame.RESIZABLE)
         fontsize = self.screen.get_height() // (self.STATUS + 2) # <<-- +2 Textgrößenkorrektur
         if self.FONT:
@@ -64,6 +67,7 @@ class Pygameban:
                 self.font = pygame.font.Font(pygame.font.get_default_font(), fontsize)
         else:
             self.font = pygame.font.SysFont(None, fontsize)
+        self.curr = (w, h)
     
     def text(self, s, coord, color, surface=None):
         """
@@ -350,21 +354,28 @@ class Pygameban:
     
     def gethelp(self, dummy=None):
         self.modal('''Keys in Menu:
-        ► Arrow keys - navigate
-        ► Return     - confirm selection
-        ► S          - replay solution for selected level
-        ► Q or ESC   - return to previous menu or quit
+        ·   [↓][↑]        -  navigate
+        ·   [Return]      -  confirm selection
+        ·   [S]           -  replay solution for selected level
         
         Keys in Game:
-        ► Arrow keys - move sokoban
-        ► R          - restart level
-        ► U          - undo last move
-        ► Q or ESC   - return to main menu
+        ·   [←][↑][↓][→]  -  move sokoban
+        ·   [R]           -  restart level
+        ·   [U]           -  undo last move (unlimited)
+        
+        Keys in Replay:
+        ·   [P]           -  play/pause
+        ·   [↑][↓]        -  change speed
+        ·   [←][→]        -  step
+        
+        Always:
+        ·   [Q] or [ESC]  -  return to (previous) menu or quit
+        ·   [F11]         -  toggle fullscreen
         
         Objective is to move all crates to targets.
-        You can only push one crate.
+        You can only push one crate at a time.
         
-        Press a key to continue''')
+        ·                   Press a key to continue                   ·''')
         self.waitkey()
         self.flipmenu()
         return 1
@@ -547,16 +558,31 @@ class Pygameban:
             # or for loop through the event queue?
             ev = pygame.event.wait()
             if ev.type == pygame.MOUSEMOTION: continue # ignore mouse
-            if ev.type == pygame.KEYDOWN and ev.key in (pygame.K_ESCAPE, pygame.K_q):
-                if self.state == 4:
-                    self.soko.updatetime()
-                    self.state = 1
-                elif self.state == 5:
-                    pygame.time.set_timer(pygame.REPLAY, 0)
-                    self.state = 3
-                elif self.state < 4:
-                    self.state -= 1
+            if ev.type == pygame.KEYDOWN: # global keypresses first (local keypresses see below)
+                if ev.key in (pygame.K_ESCAPE, pygame.K_q):
+                    if self.state == 4:
+                        self.soko.updatetime()
+                        self.state = 1
+                    elif self.state == 5:
+                        pygame.time.set_timer(pygame.REPLAY, 0)
+                        self.state = 3
+                    elif self.state < 4:
+                        self.state -= 1
+                
+                if ev.key == pygame.K_F11:
+                    if self.curr[0] == self.disp[0] and self.curr[1] == self.disp[1]:
+                        # is fullscreen, reset to default
+                        self.resize()
+                    else:
+                        # is window, resize to screen res and make fullscreen
+                        self.resize(*self.disp)
+                        pygame.display.toggle_fullscreen()
+                    # invalidate oldstate to force rerendering
+                    oldstate = -1
             
+            if ev.type == pygame.REPLAY and self.state == 5:
+                self.flipreplay(pygame.K_F15)
+
             if ev.type == pygame.PLAYSECOND:
                 self.soko.updatetime()
                 self.playfield()
@@ -596,20 +622,17 @@ class Pygameban:
                     pygame.time.set_timer(pygame.PLAYSECOND, 0)
                 if self.state == 5: self.flipreplay()
             
-            if ev.type == pygame.KEYDOWN:
+            if ev.type == pygame.KEYDOWN: # local keypress (different depending on current state)
                 if 0 < self.state < 4:
                     self.flipmenu(ev.key)
                 if self.state == 4:
                     if ev.key in trons:
                         self.lastdir = trons[ev.key]
-                        if self.soko.play(trons[ev.key]): 
+                        if self.soko.play(trons[ev.key]):
                              self.dowin()
                     self.playfield()
                 if self.state == 5:
                     self.flipreplay(ev.key)
-            
-            if ev.type == pygame.REPLAY:
-                self.flipreplay(pygame.K_F15)
             
             pygame.display.flip()
         self.terminate()
