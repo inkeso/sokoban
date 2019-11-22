@@ -31,6 +31,7 @@ class Pygameban:
     def __init__(self, leveldir):
         pygame.init()
         di = pygame.display.Info()
+        # in case of multihead, this is too large (all monitors instead of one)
         self.disp = (di.current_w, di.current_h)
         self.curr = DEFAULT_SIZE
         pygame.font.init()
