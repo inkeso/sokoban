@@ -199,11 +199,7 @@ class Sokoban:
         levelname = ""
         rowcount = 1
         for line in levelfile:
-            try:
-                line = line.decode("utf-8")
-            except Exception as w:
-                print "Error in file",filename,"at line",rowcount, w
-                continue
+            line = line.decode("utf-8", "ignore")
             rowcount += 1
             # Leere Zeilen ignorieren
             if len(line.strip()) == 0: continue
