@@ -2,48 +2,50 @@ Es ist ja nicht so, daß es nicht schon Drölfundneunzigmilliarden Sokoban-imple
 Aber im Grunde ist das nach "Hello World", "Fizzbuzz" und "Game of Life" so eine Standard-Fingerübung :)
 
 Meine Version kann folgendes
-----------------------------
+============================
 
  - läuft unter python 2 und 3 unter Windows und Linux (also vermutlich auch Mac)
  - Zwei Ausgabemöglichkeiten:
-   - ANSI-Terminal (ansiban.py)
-   - Grafisch (pygameban.py) mit Originalgrafik in Augenschonenderen Farben
+   - ANSI-Terminal (`ansiban.py`)
+   - Grafisch (`pygameban.py`) mit Originalgrafik in augenschonenderen Farben
  - Vollständiges Undo
  - Beim Beenden wird der aktuelle Spielstand gespeichert
- - Die grafische Variante speichert die beste Lösung pro Level, jede gespeicherte Lösung kann man sich anzeigen lassen (replay)
- - Levels im Standard-sokoban-format werden direkt aus der Zipdatei geladen. Diese enthält alle Levels von http://www.sourcecode.se/sokoban/levels
+ - Die grafische Variante speichert die beste Lösung pro Level, die gespeicherte Lösung kann man sich anzeigen lassen (replay)
+ - Levels im Standard Sokoban-Format werden direkt aus der Zipdatei `levels.zip` geladen. Diese enthält alle Levels von http://www.sourcecode.se/sokoban/levels
 
 
 Installation
-------------
+============
 
-Windows:
+Windows
+-------
 
-einfachste Variante ist es, sich die iksokoban-win32.7z zu ziehen und zu entpacken. Das ist ein py2exe-paket und enthält alles, was man bracuht.
+Die einfachste Variante ist, sich die `iksokoban-win32.7z` zu ziehen und zu entpacken. Das ist ein py2exe-Paket und enthält alles, was man braucht.
 Sowohl die ANSI- also auf die grafische Version sind enthalten.
 
-Alternativ: Python 2.7 installieren, die Pakete `pygame`, `win_unicode_console`, `colorama` per pip installieren, ansiban.py oder pygameban.py starten
+Alternativ: Python 2.7 installieren, die Pakete `pygame`, `win_unicode_console`, `colorama` per pip installieren, dann `ansiban.py` oder `pygameban.py` starten
 
-Falls man die windows-binary selbst bauen möchte: siehe build.bat
+Falls man die windows-binary selbst bauen möchte: siehe `build.bat`
 
-Andere Systeme:
+Andere Systeme
+--------------
 
-man benmötigt python 2 oder 3 und ein passendes pygame. Jedenfalls wenn man grafisch spielen möchte. ansiban.py läuft auch ohne pygame.
+man benötigt Python 2 oder 3 und ein passendes pygame. Jedenfalls wenn man grafisch spielen möchte. `ansiban.py` läuft auch ohne pygame.
 
-das Verzeichnis `sprites` benötigt man nur teilweise um das windows-binary zu erstellen, ansonsten sind darin sind nur die Vorlagen.
+Das Verzeichnis `sprites` benötigt man nur teilweise um das Windowsbinary zu erstellen, ansonsten sind darin sind nur die Vorlagen.
 Die eigentlichen Grafiken sind in gfx.py hinterlegt. Dort sind auch die Farben anpassbar.
 
 
 Spielstände / Lösungen
-----------------------
+======================
 
-werden als gepackte JSON-Datei gespeichert (sokoban.current.jgz, sokoban.solutions.hgz) und zwar unter Windows in dem Verzeichnis, in dem das Binary abgelegt ist
+Werden als gepackte JSON-Datei gespeichert (`sokoban.current.jgz`, `sokoban.solutions.hgz`) und zwar unter Windows in dem Verzeichnis, in dem das Binary abgelegt ist
 (damit alles schön portable bleibt) und bei allen anderen Platformen im Home-Verzeichnis.
 
-Wenn man das für sich anders möchte: siehe sokoban.py, class Sokoban
+Wenn man das für sich anders möchte: siehe `sokoban.py`, `class Sokoban`
 
 Screenshots
------------
+===========
 
 Main Menu
 ---------
