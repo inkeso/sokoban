@@ -49,11 +49,20 @@ Screenshots
 
 Main Menu
 ---------
-![Screenshot 1](https://github.com/inkeso/showcase/raw/master/sokoban/screenshot01.png)
+pygameban.py:
+![pygameban menu](https://github.com/inkeso/showcase/raw/master/sokoban/screenshot01.png)
+
+ansiban.py:
+![ansiban menu](https://github.com/inkeso/showcase/raw/master/sokoban/ansiban3.png)
 
 Level (Play)
 ------------
-![Screenshot 2](https://github.com/inkeso/showcase/raw/master/sokoban/screenshot02.png)
+pygameban.py:
+![pygameban play](https://github.com/inkeso/showcase/raw/master/sokoban/screenshot02.png)
+
+ansiban.py:
+![ansiban play 1](https://github.com/inkeso/showcase/raw/master/sokoban/ansiban1.png)
+![ansiban play 2](https://github.com/inkeso/showcase/raw/master/sokoban/ansiban2.png)
 
 Replay-Demo video
 -----------------
