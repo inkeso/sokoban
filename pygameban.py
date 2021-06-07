@@ -85,6 +85,7 @@ class Pygameban:
         # center text vertically
         hi = fs.get_height()
         if hi < sth: coord = (coord[0], coord[1] + (sth-hi)//2 + (sth-hi)%2)
+        
         surface.blit(fs, coord)
         return fs.get_width()
     
@@ -488,7 +489,7 @@ class Pygameban:
         if self.state == 1 and self.soko.packinfo:
             yof = (len(toblit)+3) * sth
             self.text('Current Level', (10, yof), 'w')
-            yof += sth*1.5
+            yof += sth*3//2
             xof = self.text('Pack: ', (10, yof), 'bg2')+10
             xof += self.text('[', (xof, yof), 'b')
             xof += self.text(str(self.soko.packinfo['idx']), (xof, yof), 'wall')
@@ -511,7 +512,7 @@ class Pygameban:
             xof += self.text(str(self.soko.pushes), (xof, yof), 'soko')
             xof += self.text('   Time: ', (xof, yof), 'bg2')
             xof += self.text(self.soko.curtime, (xof, yof), 'soko')
-            yof += sth*1.5
+            yof += sth*3//2
             playdim = (sw-20, sh+4*sth-yof)
             # try 1:1 plot
             playf = self.plot(minfield=(0,0))

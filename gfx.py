@@ -25,13 +25,13 @@ if time.strftime("%m%d") == '0401': # gneeheehee
     colors['gfont'] = (0,0,0)
 
 def str2img(dim, s):
-    return pygame.image.fromstring(zlib.decompress(base64.decodestring(s)), dim, 'P')
+    return pygame.image.fromstring(zlib.decompress(base64.b64decode(s)), dim, 'P')
 
 def icon():
     # load directly from 32x32 bmp (needs to be ready before pygame.display.set_mode)
     # but the icon is still messed up when using py2exe. So we need it in sprites as well.
     BMP = b'eJyV0TEOwjAMBVC3olMniwsgXyE3qCIxsaDmFmzcoyeORF3/BERqkPorD8+JM7jTbenJsmg9tC6lOjrhQM/PI2og1HS9P+lgeqf30i+lRPOcKedMrJEaRhqL6JyV+KZicm3XERtoLBLfjtrYOarDFnV0HWp8h08842KZciygNWTvbVtw2Vhr5mqu+z1qwXO/zF9/z/GfrEwDTFw='
-    w = io.BytesIO(zlib.decompress(base64.decodestring(BMP)))
+    w = io.BytesIO(zlib.decompress(base64.b64decode(BMP)))
     img = pygame.image.load(w, ".bmp")
     img.set_colorkey((255,0,255))
     w.close()
